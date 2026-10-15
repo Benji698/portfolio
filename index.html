@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portfolio de Benjamin Jourdan — alternant technicien informatique chez REP International et étudiant en BTS SIO option SLAM à la Nexa Digital School.">
+  <meta name="author" content="Benjamin Jourdan">
+  <title>Benjamin Jourdan — Alternant & étudiant BTS SIO SLAM</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       1. VARIABLES — tout centralisé pour modifier facilement
+       ========================================================= */
+    :root {
+      /* Fonds */
+      --fond: #070b16;
+      --surface: #0f1526;
+      --surface-haut: #141c33;
+      --surface-bordure: rgba(148, 163, 184, 0.12);
+
+      /* Accents */
+      --cyan: #38bdf8;
+      --cyan-clair: #7dd3fc;
+      --violet: #a78bfa;
+      --vert: #34d399;
+      --rose: #f472b6;
+      --jaune: #fbbf24;
+
+      /* Texte */
+      --texte: #e2e8f0;
+      --texte-doux: #94a3b8;
+      --texte-faible: #64748b;
+
+      /* Typographie */
+      --police: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --police-mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+
+      /* Mise en page */
+      --max: 1180px;
+      --rayon: 14px;
+      --rayon-grand: 20px;
+      --hauteur-nav: 68px;
+      --transition: 240ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    /* =========================================================
+       2. RESET + BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--hauteur-nav) + 20px);
+    }
+
+    body {
+      font-family: var(--police);
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--texte);
+      background: var(--fond);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grille de fond très discrète + halos de couleur */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(148,163,184,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148,163,184,.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, #000 40%, transparent 100%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.12), transparent 45%),
+        radial-gradient(circle at 85% 20%, rgba(167, 139, 250, 0.10), transparent 45%),
+        radial-gradient(circle at 50% 100%, rgba(52, 211, 153, 0.06), transparent 50%);
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: var(--cyan); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--cyan-clair); }
+    a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 4px; }
+
+    .conteneur {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* =========================================================
+       3. NAVIGATION
+       ========================================================= */
+    .nav {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(calc(100% - 32px), var(--max));
+      z-index: 100;
+      background: rgba(15, 21, 38, 0.72);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      border: 1px solid var(--surface-bordure);
+      border-radius: 999px;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 10px 40px -10px rgba(0,0,0,.6);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: var(--texte);
+      font-size: 15px;
+    }
+
+    .nav-logo-point {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--vert);
+      box-shadow: 0 0 12px var(--vert);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse { 50% { opacity: .5; transform: scale(.9); } }
+
+    .nav-menu {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-menu a {
+      display: block;
+      padding: 7px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--texte-doux);
+      border-radius: 999px;
+      transition: all var(--transition);
+    }
+
+    .nav-menu a:hover {
+      color: var(--texte);
+      background: rgba(148,163,184,.08);
+    }
+
+    .nav-menu a.actif {
+      color: var(--cyan);
+      background: rgba(56,189,248,.1);
+    }
+
+    .nav-burger {
+      display: none;
+      width: 36px;
+      height: 36px;
+      background: transparent;
+      border: 1px solid var(--surface-bordure);
+      border-radius: 10px;
+      color: var(--texte);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Barre de progression du scroll */
+    .nav-progression {
+      position: absolute;
+      bottom: -1px;
+      left: 20px;
+      right: 20px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      border-radius: 999px;
+      transform-origin: left;
+      transform: scaleX(0);
+      opacity: .8;
+    }
+
+    /* =========================================================
+       4. HERO / ACCUEIL
+       ========================================================= */
+    .hero {
+      padding: 160px 0 100px;
+      position: relative;
+    }
+
+    .hero-grille {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(56,189,248,.08);
+      border: 1px solid rgba(56,189,248,.25);
+      border-radius: 999px;
+      font-size: 13px;
+      font-family: var(--police-mono);
+      color: var(--cyan-clair);
+      margin-bottom: 24px;
+    }
+
+    .hero-badge-point {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 4.6rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .accent {
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sous-titre {
+      font-size: 1.2rem;
+      color: var(--texte-doux);
+      margin-bottom: 32px;
+      max-width: 520px;
+    }
+
+    .hero-boutons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .bouton {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      font-family: var(--police);
+      font-weight: 600;
+      font-size: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all var(--transition);
+      border: none;
+    }
+
+    .bouton-primaire {
+      background: linear-gradient(135deg, var(--cyan), #0ea5e9);
+      color: #0a0e1a;
+      box-shadow: 0 6px 24px -6px rgba(56,189,248,.5);
+    }
+
+    .bouton-primaire:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px -6px rgba(56,189,248,.7);
+      color: #0a0e1a;
+    }
+
+    .bouton-secondaire {
+      background: rgba(148,163,184,.08);
+      border: 1px solid var(--surface-bordure);
+      color: var(--texte);
+    }
+
+    .bouton-secondaire:hover {
+      background: rgba(148,163,184,.14);
+      border-color: rgba(148,163,184,.25);
+      transform: translateY(-2px);
+    }
+
+    /* Carte de code à droite du hero */
+    .hero-carte-code {
+      background: linear-gradient(135deg, rgba(20,28,51,.9), rgba(10,14,26,.9));
+      border: 1px solid var(--surface-bordure);
+      border-radius: var(--rayon-grand);
+      overflow: hidden;
+      box-shadow: 0 20px 60px -20px rgba(0,0,0,.6);
+      position: relative;
+    }
+
+    .hero-carte-code::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(56,189,248,.1), transparent 50%);
+      pointer-events: none;
+    }
+
+    .carte-code-barre {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--surface-bordure);
+      font-family: var(--police-mono);
+      font-size: 12px;
+      color: var(--texte-doux);
+    }
+
+    .points-fenetre {
+      display: flex;
+      gap: 6px;
+      margin-right: 8px;
+    }
+
+    .points-fenetre span {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: rgba(148,163,184,.3);
+    }
+
+    .points-fenetre span:nth-child(1) { background: #ef4444; }
+    .points-fenetre span:nth-child(2) { background: #f59e0b; }
+    .points-fenetre span:nth-child(3) { background: #10b981; }
+
+    .carte-code-contenu {
+      padding: 24px 22px;
+      font-family: var(--police-mono);
+      font-size: 14px;
+      line-height: 1.75;
+      overflow-x: auto;
+    }
+
+    .cle { color: #c084fc; }
+    .chaine { color: #86efac; }
+    .nombre { color: #fbbf24; }
+    .fonction { color: var(--cyan); }
+    .commentaire { color: var(--texte-faible); font-style: italic; }
+    .prop { color: #f9a8d4; }
+
+    /* =========================================================
+       5. SECTIONS GÉNÉRIQUES
+       ========================================================= */
+    .section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--police-mono);
+      font-size: 13px;
+      color: var(--cyan);
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+
+    .section-eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: var(--cyan);
+    }
+
+    .section-titre {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+
+    .section-intro {
+      color: var(--texte-doux);
+      font-size: 1.08rem;
+      max-width: 640px;
+      margin-bottom: 48px;
+    }
+
+    /* =========================================================
+       6. À PROPOS
+       ========================================================= */
+    .apropos-grille {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .apropos-texte p {
+      margin-bottom: 18px;
+      color: var(--texte-doux);
+      font-size: 1.05rem;
+    }
+
+    .apropos-texte strong { color: var(--texte); font-weight: 600; }
+
+    .carte-faits {
+      background: var(--surface);
+      border: 1px solid var(--surface-bordure);
+      border-radius: var(--rayon-grand);
+      padding: 28px;
+      list-style: none;
+    }
+
+    .carte-faits li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--surface-bordure);
+    }
+
+    .carte-faits li:last-child { border-bottom: none; }
+
+    .carte-faits dt {
+      font-family: var(--police-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--texte-faible);
+      font-weight: 500;
+    }
+
+    .carte-faits dd {
+      color: var(--texte);
+      font-weight: 500;
+      text-align: right;
+    }
+
+    /* =========================================================
+       7. COMPÉTENCES
+       ========================================================= */
+    .onglets {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      background: var(--surface);
+      border: 1px solid var(--surface-bordure);
+      border-radius: 999px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .onglet {
+      padding: 8px 18px;
+      font-family: var(--police);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--texte-doux);
+      background: transparent;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .onglet.actif {
+      background: rgba(56,189,248,.15);
+      color: var(--cyan);
+    }
+
+    .onglet:hover:not(.actif) { color: var(--texte); }
+
+    .panneau-competences { display: none; }
+    .panneau-competences.actif { display: block; animation: apparait 320ms ease-out; }
+
+    @keyframes apparait {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .bloc-bts {
+      background: var(--surface);
+      border: 1px solid var(--surface-bordure);
+      border-radius: var(--rayon-grand);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .bloc-bts-entete {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .bloc-bts-code {
+      font-family: var(--police-mono);
+      font-size: 13px;
+      padding: 4px 10px;
+      background: rgba(56,189,248,.1);
+      color: var(--cyan);
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .bloc-bts-titre {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .competences-liste {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .competence-item {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      background: rgba(148,163,184,.04);
+      border: 1px solid var(--surface-bordure);
+      border-radius: var(--rayon);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .competence-code {
+      font-family: var(--police-mono);
+      color: var(--violet);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    /* Stack technique */
+    .stack-grille {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .stack-carte {
+      background: var(--surface);
+      border: 1px solid var(--surface-bordure);
+      border-radius: var(--rayon-grand);
+      padding: 24px;
+      transition: all var(--transition);
+    }
+
+    .stack-carte:hover {
+      transform: translateY(-3px);
+      border-color: rgba(56,189,248,.3);
+    }
+
+    .stack-carte h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--texte);
+    }
+
+    .stack-carte h3 svg {
+      width: 20px;
+      height: 20px;
+      color: var(--cyan);
+    }
+
+    .etiquettes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .etiquettes li {
+      font-family: var(--police-mono);
+      font-size: 12.5px;
+      padding: 5px 11px;
+      background: rgba(148,163,184,.08);
+      border: 1px solid var(--surface-bordure);
+      border-radius: 6px;
+      color: var(--texte-doux);
+    }
+
+    /* =========================================================
+       8. PROJETS
+       ========================================================= */
+    .projets-grille {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .projet {
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 1px solid var(--surface-bordure);
+      border-radius: var(--rayon-grand);
+      padding: 28px;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .projet::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 100% 0%, rgba(56,189,248,.08), transparent 50%);
+      opacity: 0;
+      transition: opacity var(--transition);
+      pointer-events: none;
+    }
+
+    .projet:hover {
+      transform: translateY(-4px);
+      border-color: rgba(56,189,248,.3);
+      box-shadow: 0 20px 50px -20px rgba(0,0,0,.5);
+    }
+
+    .projet:hover::before { opacity: 1; }
+
+    .projet.vedette {
+      grid-column: span 2;
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(56,189,248,.03) 100%);
+    }
+
+    .projet-entete {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .projet-type {
+      display: inline-block;
+      font-family: var(--police-mono);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .type-stage { background: rgba(52,211,153,.12); color: var(--vert); }
+    .type-cours { background: rgba(167,139,250,.12); color: var(--violet); }
+    .type-perso { background: rgba(251,191,36,.12); color: var(--jaune); }
+
+    .projet-epreuve {
+      font-family: var(--police-mono);
+      font-size: 11px;
+      color: var(--texte-faible);
+      font-weight: 500;
+    }
+
+    .projet h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .projet-desc {
+      color: var(--texte-doux);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .projet-techno {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .projet-techno li {
+      font-family: var(--police-mono);
+      font-size: 11.5px;
+      padding: 3px 9px;
+      background: rgba(148,163,184,.08);
+      border-radius: 5px;
+      color: var(--texte-doux);
+    }
+
+    .projet-competences {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .projet-competences span {
+      font-family: var(--police-mono);
+      font-size: 11px;
+      padding: 2px 8px;
+      background: rgba(56,189,248,.1);
+      color: var(--cyan);
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .projet-lien {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--cyan);
+    }
+
+    .projet-lien::after {
+      content: "→";
+      transition: transform var(--transition);
+    }
+
+    .projet-lien:hover::after { transform: translateX(3px); }
+
+    /* =========================================================
+       9. PARCOURS (frise verticale)
+       ========================================================= */
+    .frise {
+      position: relative;
+      padding-left: 32px;
+      list-style: none;
+    }
+
+    .frise::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--cyan), transparent);
+    }
+
+    .frise li {
+      position: relative;
+      padding-bottom: 32px;
+    }
+
+    .frise li:last-child { padding-bottom: 0; }
+
+    .frise li::before {
+      content: "";
+      position: absolute;
+      left: -32px;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--fond);
+      border: 2px solid var(--texte-faible);
+    }
+
+    .frise li.actif::before {
+      border-color: var(--cyan);
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+    }
+
+    .frise-date {
+      display: block;
+      font-family: var(--police-mono);
+      font-size: 12.5px;
+      color: var(--cyan);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .frise h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .frise p {
+      color: var(--texte-doux);
+      font-size: 0.95rem;
+    }
+
+    /* =========================================================
+       10. VEILLE TECHNOLOGIQUE (étoffée)
+       ========================================================= */
+    .veille-grille-principale {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+
+    .veille-sujet {
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(167,139,250,.04) 100%);
+      border: 1px solid var(--surface-bordure);
+      border-radius: var(--rayon-grand);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .veille-sujet::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0% 100%, rgba(167,139,250,.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .veille-sujet-eyebrow {
+      display: inline-block;
+      font-family: var(--police-mono);
+      font-size: 12px;
+      padding: 4px 10px;
+      background: rgba(167,139,250,.12);
+      color: var(--violet);
+      border-radius: 6px;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .veille-sujet h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .veille-sujet p {
+      color: var(--texte-doux);
+      margin-bottom: 14px;
+    }
+
+    .veille-outils-liste {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+      list-style: none;
+    }
+
+    .veille-outil {
+      padding: 14px;
+      background: rgba(148,163,184,.04);
+      border: 1px solid var(--surface-bordure);
+      border-radius: var(--rayon);
+    }
+
+    .veille-outil-nom {
+      font-family: var(--police-mono);
+      font-size: 13px;
+      color: var(--cyan);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .veille-outil-desc {
+      font-size: 12.5px;
+      color: var(--texte-faible);
+    }
+
+    .veille-sources {
+      background: var(--surface);
+      border: 1px solid var(--surface-bordure);
+      border-radius: var(--rayon-grand);
+      padding: 28px;
+    }
+
+    .veille-sources h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .veille-sources h3 svg {
+      width: 18px;
+      height: 18px;
+      color: var(--cyan);
+    }
+
+    .veille-categorie {
+      margin-bottom: 20px;
+    }
+
+    .veille-categorie:last-child { margin-bottom: 0; }
+
+    .veille-categorie-titre {
+      font-family: var(--police-mono);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--texte-faible);
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .veille-sources-liste {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .veille-sources-liste li {
+      font-size: 13.5px;
+      color: var(--texte-doux);
+      padding: 4px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .veille-sources-liste li::before {
+      content: "→";
+      color: var(--cyan);
+      font-size: 12px;
+      transition: transform var(--transition);
+    }
+
+    .veille-sources-liste li:hover::before { transform: translateX(3px); }
+
+    .veille-sources-liste a {
+      color: var(--texte-doux);
+      border-bottom: 1px solid transparent;
+      transition: color var(--transition), border-color var(--transition);
+    }
+
+    .veille-sources-liste a::after {
+      content: "↗";
+      margin-left: 4px;
+      font-size: 11px;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .veille-sources-liste a:hover {
+      color: var(--cyan-clair);
+      border-bottom-color: rgba(125, 211, 252, .4);
+    }
+
+    .veille-sources-liste a:hover::after { opacity: 1; }
+
+    .veille-articles-titre {
+      font-family: var(--police-mono);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--texte-faible);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .veille-articles-titre::before, .veille-articles-titre::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--surface-bordure);
+    }
+
+    .veille-articles-grille {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .veille-article {
+      background: var(--surface);
+      border: 1px solid var(--surface-bordure);
+      border-radius: var(--rayon-grand);
+      padding: 24px;
+      transition: all var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .veille-article:hover {
+      transform: translateY(-3px);
+      border-color: rgba(56,189,248,.3);
+    }
+
+    .veille-article-date {
+      font-family: var(--police-mono);
+      font-size: 11.5px;
+      color: var(--texte-faible);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .veille-article-cat {
+      padding: 2px 8px;
+      background: rgba(56,189,248,.1);
+      color: var(--cyan);
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .veille-article h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+
+    .veille-article p {
+      font-size: 14px;
+      color: var(--texte-doux);
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .veille-article-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .veille-article-tags li {
+      font-family: var(--police-mono);
+      font-size: 11px;
+      padding: 2px 7px;
+      background: rgba(148,163,184,.08);
+      border-radius: 4px;
+      color: var(--texte-faible);
+    }
+
+    /* =========================================================
+       11. CONTACT
+       ========================================================= */
+    .contact {
+      padding: 100px 0 60px;
+    }
+
+    .contact-carte {
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(56,189,248,.04) 100%);
+      border: 1px solid var(--surface-bordure);
+      border-radius: var(--rayon-grand);
+      padding: 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-carte::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 100%, rgba(56,189,248,.1), transparent 60%);
+      pointer-events: none;
+    }
+
+    .contact-carte h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .contact-carte p {
+      color: var(--texte-doux);
+      max-width: 500px;
+      margin: 0 auto 32px;
+      position: relative;
+    }
+
+    .contact-liens {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .lien-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      background: rgba(148,163,184,.08);
+      border: 1px solid var(--surface-bordure);
+      border-radius: 10px;
+      color: var(--texte);
+      font-weight: 500;
+      font-size: 14.5px;
+      transition: all var(--transition);
+    }
+
+    .lien-contact:hover {
+      background: rgba(148,163,184,.14);
+      border-color: rgba(56,189,248,.3);
+      transform: translateY(-2px);
+      color: var(--cyan-clair);
+    }
+
+    .lien-contact svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    button.lien-contact {
+      font-family: var(--police);
+      cursor: pointer;
+    }
+
+    .lien-contact.copie {
+      color: var(--vert);
+      border-color: rgba(52, 211, 153, .4);
+    }
+
+    /* =========================================================
+       12. PIED DE PAGE
+       ========================================================= */
+    .pied {
+      padding: 40px 0;
+      border-top: 1px solid var(--surface-bordure);
+      font-size: 13px;
+      color: var(--texte-faible);
+      text-align: center;
+    }
+
+    .pied code {
+      font-family: var(--police-mono);
+      font-size: 12px;
+      color: var(--texte-doux);
+    }
+
+    /* =========================================================
+       13. ANIMATIONS AU SCROLL (révélation)
+       Les éléments .reveal ne sont cachés QUE si JS s'exécute
+       (fallback accessible : sans JS, tout reste visible).
+       ========================================================= */
+    html.js .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 700ms ease, transform 700ms ease;
+    }
+
+    html.js .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================================================
+       14. RESPONSIVE
+       ========================================================= */
+    @media (max-width: 860px) {
+      .nav-menu { display: none; }
+      .nav-burger { display: inline-flex; }
+      .nav.ouvert {
+        border-radius: var(--rayon-grand);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+      }
+      .nav.ouvert .nav-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        margin-top: 10px;
+      }
+      .nav.ouvert .nav-barre-haut {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .nav-barre-haut {
+        display: contents;
+      }
+
+      .hero { padding: 130px 0 70px; }
+      .hero-grille { grid-template-columns: 1fr; gap: 40px; }
+      .section { padding: 70px 0; }
+      .apropos-grille { grid-template-columns: 1fr; gap: 32px; }
+      .veille-grille-principale { grid-template-columns: 1fr; }
+      .projet.vedette { grid-column: span 1; }
+      .contact-carte { padding: 36px 24px; }
+      .bloc-bts { padding: 24px; }
+    }
+
+    @media (max-width: 480px) {
+      .conteneur { padding: 0 16px; }
+      .onglets { font-size: 13px; }
+      .onglet { padding: 7px 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======================= NAVIGATION ======================= -->
+  <nav class="nav" id="nav" aria-label="Navigation principale">
+    <div class="nav-barre-haut">
+      <a href="#accueil" class="nav-logo">
+        <span class="nav-logo-point" aria-hidden="true"></span>
+        Benjamin<span style="color: var(--texte-faible); font-weight: 400;">.dev</span>
+      </a>
+      <button class="nav-burger" id="nav-burger" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <ul class="nav-menu">
+      <li><a href="#apropos">À propos</a></li>
+      <li><a href="#competences">Compétences</a></li>
+      <li><a href="#projets">Projets</a></li>
+      <li><a href="#parcours">Parcours</a></li>
+      <li><a href="#veille">Veille</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-progression" id="nav-progression" aria-hidden="true"></div>
+  </nav>
+
+  <main>
+
+    <!-- ======================= HERO ======================= -->
+    <section class="hero" id="accueil">
+      <div class="conteneur">
+        <div class="hero-grille">
+          <div>
+            <span class="hero-badge">
+              <span class="hero-badge-point"></span>
+              En alternance chez REP International · BTS SIO SLAM
+            </span>
+            <h1>Benjamin <span class="accent">Jourdan</span></h1>
+            <p class="hero-sous-titre">
+              Alternant technicien informatique chez REP International et étudiant
+              en BTS SIO option SLAM à la Nexa Digital School. Je me forme au
+              développement d'applications avec Python, PHP et SQL.
+            </p>
+            <div class="hero-boutons">
+              <a href="#parcours" class="bouton bouton-primaire">
+                Mon parcours
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+              <a href="#contact" class="bouton bouton-secondaire">Me contacter</a>
+            </div>
+          </div>
+
+          <div class="hero-carte-code" aria-hidden="true">
+            <div class="carte-code-barre">
+              <div class="points-fenetre"><span></span><span></span><span></span></div>
+              <span>Benjamin.php</span>
+            </div>
+            <pre class="carte-code-contenu"><span class="cle">class</span> <span class="fonction">Alternant</span> {
+  <span class="cle">public</span> <span class="prop">$nom</span>         = <span class="chaine">"Benjamin Jourdan"</span>;
+  <span class="cle">public</span> <span class="prop">$formation</span>   = <span class="chaine">"BTS SIO · SLAM"</span>;
+  <span class="cle">public</span> <span class="prop">$ecole</span>       = <span class="chaine">"Nexa Digital School"</span>;
+  <span class="cle">public</span> <span class="prop">$entreprise</span>  = <span class="chaine">"REP International"</span>;
+  <span class="cle">public</span> <span class="prop">$ville</span>       = <span class="chaine">"Saint-Priest, 69"</span>;
+
+  <span class="cle">public</span> <span class="prop">$apprend</span> = [
+    <span class="chaine">"Python"</span>, <span class="chaine">"PHP"</span>, <span class="chaine">"SQL"</span>, <span class="chaine">"Git"</span>
+  ];
+
+  <span class="commentaire">// 3 j entreprise · 2 j école</span>
+  <span class="cle">public</span> <span class="prop">$motive</span>      = <span class="cle">true</span>;
+}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= À PROPOS ======================= -->
+    <section class="section" id="apropos">
+      <div class="conteneur reveal">
+        <span class="section-eyebrow">01 · À propos</span>
+        <h2 class="section-titre">Du terrain au développement, une reconversion assumée</h2>
+        <p class="section-intro">
+          Issu de la logistique et du transport, je me reconvertis vers l'informatique
+          par la voie de l'alternance pour construire les outils que j'utilisais hier
+          sur le terrain.
+        </p>
+
+        <div class="apropos-grille">
+          <div class="apropos-texte">
+            <p>
+              Après un <strong>Baccalauréat STMG</strong> puis une <strong>Licence 1
+              Économie, Gestion et Droit</strong> à Lyon 2, j'ai découvert le monde
+              professionnel sur le terrain : chauffeur livreur, assistant événementiel
+              chez GEODIS, puis plus de deux ans comme <strong>agent de parc automobile
+              chez TEA Lyon</strong> à gérer une quarantaine de véhicules par jour.
+            </p>
+            <p>
+              Depuis septembre 2026, je prépare un <strong>BTS SIO option SLAM</strong>
+              à la <strong>Nexa Digital School</strong> (Confluence, Lyon) en alternance
+              chez <strong>REP International</strong> comme technicien informatique :
+              3 jours en entreprise, 2 jours à l'école. Je me forme au développement
+              avec <strong>Python, PHP et SQL</strong>, et je versionne mon code avec Git.
+            </p>
+            <p>
+              Ce que j'apporte : l'<strong>autonomie</strong> et la <strong>rigueur
+              procédurale</strong> acquises sur le terrain, le <strong>respect des
+              délais</strong>, et surtout la <strong>compréhension du besoin métier</strong>
+              derrière l'outil — parce que l'outil, hier, c'était moi qui l'utilisais.
+            </p>
+          </div>
+
+          <dl class="carte-faits">
+            <li><dt>Formation</dt><dd>BTS SIO · SLAM · Nexa Digital School</dd></li>
+            <li><dt>Alternance</dt><dd>REP International · depuis 09/2026</dd></li>
+            <li><dt>Rythme</dt><dd>3 j entreprise · 2 j école</dd></li>
+            <li><dt>Localisation</dt><dd>Saint-Priest (69800)</dd></li>
+            <li><dt>Mobilité</dt><dd>Permis B · Véhicule</dd></li>
+            <li><dt>Langues</dt><dd>Français · Anglais B1</dd></li>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= COMPÉTENCES ======================= -->
+    <section class="section" id="competences">
+      <div class="conteneur reveal">
+        <span class="section-eyebrow">02 · Compétences</span>
+        <h2 class="section-titre">Blocs de compétences BTS SIO & stack technique</h2>
+        <p class="section-intro">
+          Les blocs validés par le référentiel BTS SIO (B1, B2, B3) et les technologies
+          que je pratique en cours, en stage et sur mes projets personnels.
+        </p>
+
+        <div class="onglets" role="tablist">
+          <button class="onglet actif" data-cible="blocs-bts" role="tab" aria-selected="true">Blocs BTS SIO</button>
+          <button class="onglet" data-cible="stack-tech" role="tab" aria-selected="false">Stack technique</button>
+        </div>
+
+        <!-- Panneau Blocs BTS -->
+        <div class="panneau-competences actif" id="blocs-bts" role="tabpanel">
+
+          <article class="bloc-bts">
+            <div class="bloc-bts-entete">
+              <span class="bloc-bts-code">BLOC 1</span>
+              <h3 class="bloc-bts-titre">Support et mise à disposition de services informatiques</h3>
+            </div>
+            <ul class="competences-liste">
+              <li class="competence-item"><span class="competence-code">B1.1</span>Gérer le patrimoine informatique</li>
+              <li class="competence-item"><span class="competence-code">B1.2</span>Répondre aux incidents et aux demandes d'assistance et d'évolution</li>
+              <li class="competence-item"><span class="competence-code">B1.3</span>Développer la présence en ligne de l'organisation</li>
+              <li class="competence-item"><span class="competence-code">B1.4</span>Travailler en mode projet</li>
+              <li class="competence-item"><span class="competence-code">B1.5</span>Mettre à disposition des utilisateurs un service informatique</li>
+              <li class="competence-item"><span class="competence-code">B1.6</span>Organiser son développement professionnel</li>
+            </ul>
+          </article>
+
+          <article class="bloc-bts">
+            <div class="bloc-bts-entete">
+              <span class="bloc-bts-code">BLOC 2</span>
+              <h3 class="bloc-bts-titre">Cybersécurité des services informatiques</h3>
+            </div>
+            <ul class="competences-liste">
+              <li class="competence-item"><span class="competence-code">B2.1</span>Protéger les données à caractère personnel</li>
+              <li class="competence-item"><span class="competence-code">B2.2</span>Préserver l'identité numérique de l'organisation</li>
+              <li class="competence-item"><span class="competence-code">B2.3</span>Sécuriser les équipements et les usages des utilisateurs</li>
+              <li class="competence-item"><span class="competence-code">B2.4</span>Garantir disponibilité, intégrité et confidentialité des services et données</li>
+              <li class="competence-item"><span class="competence-code">B2.5</span>Assurer la cybersécurité d'une infrastructure, d'un réseau, d'un système</li>
+            </ul>
+          </article>
+
+          <article class="bloc-bts">
+            <div class="bloc-bts-entete">
+              <span class="bloc-bts-code">BLOC 3 · SLAM</span>
+              <h3 class="bloc-bts-titre">Conception et développement d'applications</h3>
+            </div>
+            <ul class="competences-liste">
+              <li class="competence-item"><span class="competence-code">B3.1</span>Concevoir et développer une solution applicative</li>
+              <li class="competence-item"><span class="competence-code">B3.2</span>Assurer la maintenance corrective ou évolutive d'une solution applicative</li>
+              <li class="competence-item"><span class="competence-code">B3.3</span>Gérer les données</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- Panneau Stack technique -->
+        <div class="panneau-competences" id="stack-tech" role="tabpanel">
+          <p style="color: var(--texte-doux); font-size: 14.5px; margin-bottom: 24px; max-width: 620px;">
+            <strong style="color: var(--cyan);">En formation</strong> — ces compétences sont en cours
+            d'acquisition dans le cadre du BTS SIO. Le niveau de maîtrise progresse chaque semaine.
+          </p>
+          <div class="stack-grille">
+
+            <div class="stack-carte">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Développement
+              </h3>
+              <ul class="etiquettes">
+                <li>Python</li><li>PHP</li><li>SQL</li><li>HTML5 / CSS3</li><li>JavaScript</li>
+              </ul>
+            </div>
+
+            <div class="stack-carte">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                Fondamentaux
+              </h3>
+              <ul class="etiquettes">
+                <li>Algorithmique</li><li>Logique de programmation</li><li>Structures de données</li>
+              </ul>
+            </div>
+
+            <div class="stack-carte">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/></svg>
+                Outils
+              </h3>
+              <ul class="etiquettes">
+                <li>Git</li><li>VS Code</li><li>Terminal / CLI</li>
+              </ul>
+            </div>
+
+            <div class="stack-carte">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                Support informatique
+              </h3>
+              <ul class="etiquettes">
+                <li>Installation Windows</li><li>Diagnostic de pannes</li><li>Assistance de proximité</li><li>Gestion de tickets</li>
+              </ul>
+            </div>
+
+            <div class="stack-carte">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Atouts métier
+              </h3>
+              <ul class="etiquettes">
+                <li>Résolution de problèmes</li><li>Organisation autonome</li><li>Rigueur procédurale</li><li>Communication en équipe</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= RÉALISATIONS ======================= -->
+    <section class="section" id="projets">
+      <div class="conteneur reveal">
+        <span class="section-eyebrow">03 · Réalisations</span>
+        <h2 class="section-titre">Ce sur quoi je travaille en ce moment</h2>
+        <p class="section-intro">
+          Je suis en début de parcours : voici ce que je construis actuellement en
+          alternance et en formation. Cette section s'étoffera au fil des projets
+          BTS et de ma montée en compétences.
+        </p>
+
+        <div class="projets-grille">
+
+          <article class="projet vedette">
+            <div class="projet-entete">
+              <span class="projet-type type-stage">Alternance en cours</span>
+              <span class="projet-epreuve">Support épreuve E4</span>
+            </div>
+            <h3>Technicien informatique · REP International</h3>
+            <p class="projet-desc">
+              Au sein du service informatique de REP International, je prends en charge
+              l'installation et la configuration des postes de travail des utilisateurs,
+              le diagnostic de pannes matérielles et logicielles, et le traitement des
+              demandes d'assistance via un système de gestion de tickets. Un contact
+              direct avec les utilisateurs qui me permet d'ancrer les notions du BTS
+              dans le réel.
+            </p>
+            <ul class="projet-techno">
+              <li>Windows</li><li>Diagnostic matériel</li><li>Gestion de tickets</li><li>Support utilisateur</li>
+            </ul>
+            <div class="projet-competences" aria-label="Compétences couvertes">
+              <span>B1.1</span><span>B1.2</span><span>B1.5</span>
+            </div>
+            <span class="projet-lien" style="color: var(--texte-faible); cursor: default;">Mission en cours depuis 09/2026</span>
+          </article>
+
+          <article class="projet">
+            <div class="projet-entete">
+              <span class="projet-type type-perso">Projet personnel</span>
+              <span class="projet-epreuve">Première réalisation web</span>
+            </div>
+            <h3>Ce portfolio</h3>
+            <p class="projet-desc">
+              Mon premier site codé de A à Z : HTML, CSS et JavaScript sans framework.
+              Design dark modern, navigation sticky avec barre de progression, onglets
+              pour les compétences, animations à l'apparition, et pensé mobile-first
+              avec accessibilité (navigation clavier, contrastes, prefers-reduced-motion).
+            </p>
+            <ul class="projet-techno">
+              <li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>Accessibilité</li>
+            </ul>
+            <div class="projet-competences">
+              <span>B1.3</span><span>B3.1</span>
+            </div>
+            <span class="projet-lien" style="color: var(--texte-faible); cursor: default;">Vous le consultez</span>
+          </article>
+
+          <article class="projet">
+            <div class="projet-entete">
+              <span class="projet-type type-cours">Formation BTS</span>
+              <span class="projet-epreuve">À venir · E5</span>
+            </div>
+            <h3>Projets BTS SIO SLAM</h3>
+            <p class="projet-desc">
+              Les projets développés en cours à la Nexa Digital School (Python, PHP,
+              SQL, modélisation de bases de données) viendront alimenter cette section
+              à mesure qu'ils sont livrés et évalués. Prochaine étape : une première
+              application web Python/PHP connectée à une base de données.
+            </p>
+            <ul class="projet-techno">
+              <li>Python</li><li>PHP</li><li>SQL</li><li>Merise</li>
+            </ul>
+            <div class="projet-competences">
+              <span>B3.1</span><span>B3.3</span>
+            </div>
+            <span class="projet-lien" style="color: var(--texte-faible); cursor: default;">En cours de formation</span>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= PARCOURS ======================= -->
+    <section class="section" id="parcours">
+      <div class="conteneur reveal">
+        <span class="section-eyebrow">04 · Parcours</span>
+        <h2 class="section-titre">Du terrain à l'informatique</h2>
+        <p class="section-intro">
+          Un parcours en reconversion : des années d'expérience du monde professionnel
+          sur le terrain, puis un virage assumé vers le développement d'applications.
+        </p>
+
+        <ol class="frise">
+          <li class="actif">
+            <span class="frise-date">Depuis sept. 2026 · En cours</span>
+            <h3>Alternant technicien informatique · REP International</h3>
+            <p>En parallèle du BTS SIO SLAM : installation et configuration de postes, diagnostic de pannes matérielles et logicielles, traitement des demandes via gestion de tickets.</p>
+          </li>
+          <li class="actif">
+            <span class="frise-date">Depuis sept. 2026 · En cours</span>
+            <h3>BTS SIO · Option SLAM · Nexa Digital School</h3>
+            <p>Confluence, Lyon. Formation au développement d'applications (Python, PHP, SQL, Git), algorithmique, bases de données et cybersécurité. Rythme 3 j entreprise / 2 j école.</p>
+          </li>
+          <li>
+            <span class="frise-date">Nov. 2023 — Mars 2026</span>
+            <h3>Agent de parc automobile · TEA Lyon</h3>
+            <p>Gestion d'une quarantaine de véhicules par jour dans un parc dynamique, application stricte des procédures et consignes de sécurité, formation des nouveaux collaborateurs.</p>
+          </li>
+          <li>
+            <span class="frise-date">2022 — 2023</span>
+            <h3>Assistant organisation événementielle · GEODIS</h3>
+            <p>Préparation logistique d'événements, coordination entre intervenants, résolution d'imprévus avec réactivité au service des clients et des équipes.</p>
+          </li>
+          <li>
+            <span class="frise-date">Sept. — Nov. 2022</span>
+            <h3>Chauffeur livreur · Groupe CARSO</h3>
+            <p>Organisation des tournées en autonomie, livraisons sensibles dans le respect strict des protocoles et des délais.</p>
+          </li>
+          <li>
+            <span class="frise-date">2021 — 2022</span>
+            <h3>Licence 1 · Économie, Gestion et Droit</h3>
+            <p>Université Lumière Lyon 2. Première année universitaire avant une réorientation professionnelle vers le monde du travail.</p>
+          </li>
+          <li>
+            <span class="frise-date">2021</span>
+            <h3>Baccalauréat STMG</h3>
+            <p>Lycée Condorcet, Saint-Priest. Spécialité Sciences et Technologies du Management et de la Gestion.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ======================= VEILLE TECHNOLOGIQUE ======================= -->
+    <section class="section" id="veille">
+      <div class="conteneur reveal">
+        <span class="section-eyebrow">05 · Veille technologique</span>
+        <h2 class="section-titre">L'IA dans le développement logiciel</h2>
+        <p class="section-intro">
+          Depuis mon entrée en BTS SIO, je suis l'évolution rapide de l'intelligence
+          artificielle dans le métier de développeur : productivité, qualité du code,
+          nouvelles pratiques et nouveaux risques.
+        </p>
+
+        <div class="veille-grille-principale">
+
+          <article class="veille-sujet">
+            <span class="veille-sujet-eyebrow">Sujet principal</span>
+            <h3>Les assistants de code et le quotidien du développeur</h3>
+            <p>
+              Les assistants de code basés sur des modèles de langage (LLM) comme
+              <strong>GitHub Copilot</strong>, <strong>Claude Code</strong> ou
+              <strong>Cursor</strong> transforment la manière de programmer : génération
+              de code, explication, refactoring, tests, documentation. Je m'intéresse
+              à leur <em>impact concret</em> sur un projet BTS : gain de temps mesurable,
+              mais aussi qualité, dette technique et dépendance.
+            </p>
+            <p>
+              Je suis particulièrement l'évolution de l'<strong>agentic coding</strong>
+              (agents autonomes capables de lire une base de code, écrire des fichiers
+              et exécuter des commandes), le <strong>Model Context Protocol</strong>
+              (MCP) qui standardise la connexion des IA à des outils externes, et les
+              bonnes pratiques émergentes : code review systématique du code généré,
+              tests avant de livrer, et attention aux <em>injections de prompt</em>.
+            </p>
+
+            <ul class="veille-outils-liste" aria-label="Principaux outils suivis">
+              <li class="veille-outil">
+                <span class="veille-outil-nom">Copilot</span>
+                <span class="veille-outil-desc">Autocomplétion IDE</span>
+              </li>
+              <li class="veille-outil">
+                <span class="veille-outil-nom">Claude Code</span>
+                <span class="veille-outil-desc">Agent CLI</span>
+              </li>
+              <li class="veille-outil">
+                <span class="veille-outil-nom">Cursor</span>
+                <span class="veille-outil-desc">Éditeur IA</span>
+              </li>
+              <li class="veille-outil">
+                <span class="veille-outil-nom">MCP</span>
+                <span class="veille-outil-desc">Protocole d'outils</span>
+              </li>
+            </ul>
+          </article>
+
+          <aside class="veille-sources">
+            <h3>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              Mes sources
+            </h3>
+
+            <div class="veille-categorie">
+              <div class="veille-categorie-titre">Blogs & sites tech</div>
+              <ul class="veille-sources-liste">
+                <li><a href="https://www.lemondeinformatique.fr/" target="_blank" rel="noopener">Le Monde Informatique</a></li>
+                <li><a href="https://www.developpez.com/" target="_blank" rel="noopener">Developpez.com</a></li>
+                <li><a href="https://grafikart.fr/" target="_blank" rel="noopener">Grafikart (tutoriels PHP)</a></li>
+                <li><a href="https://developer.mozilla.org/fr/" target="_blank" rel="noopener">MDN Web Docs</a></li>
+                <li><a href="https://realpython.com/" target="_blank" rel="noopener">Real Python</a></li>
+              </ul>
+            </div>
+
+            <div class="veille-categorie">
+              <div class="veille-categorie-titre">Newsletters</div>
+              <ul class="veille-sources-liste">
+                <li><a href="https://news.humancoders.com/" target="_blank" rel="noopener">Human Coders News</a></li>
+                <li><a href="https://tldr.tech/" target="_blank" rel="noopener">TLDR Newsletter</a></li>
+                <li><a href="https://javascriptweekly.com/" target="_blank" rel="noopener">JavaScript Weekly</a></li>
+              </ul>
+            </div>
+
+            <div class="veille-categorie">
+              <div class="veille-categorie-titre">Chaînes & podcasts</div>
+              <ul class="veille-sources-liste">
+                <li><a href="https://www.youtube.com/@Fireship" target="_blank" rel="noopener">Fireship (YouTube)</a></li>
+                <li><a href="https://www.youtube.com/@grafikart" target="_blank" rel="noopener">Grafikart (YouTube)</a></li>
+                <li><a href="https://www.ifttd.io/" target="_blank" rel="noopener">IFTTD (podcast)</a></li>
+                <li><a href="https://www.programmez.com/" target="_blank" rel="noopener">Programmez.com</a></li>
+              </ul>
+            </div>
+
+            <div class="veille-categorie">
+              <div class="veille-categorie-titre">Documentation officielle</div>
+              <ul class="veille-sources-liste">
+                <li><a href="https://docs.python.org/fr/3/" target="_blank" rel="noopener">Python.org</a></li>
+                <li><a href="https://www.php.net/manual/fr/" target="_blank" rel="noopener">PHP.net</a></li>
+                <li><a href="https://owasp.org/" target="_blank" rel="noopener">OWASP Foundation</a></li>
+                <li><a href="https://cyber.gouv.fr/" target="_blank" rel="noopener">ANSSI (sécurité)</a></li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+
+        <div class="veille-articles-titre">Dernières synthèses de veille</div>
+
+        <div class="veille-articles-grille">
+
+          <article class="veille-article">
+            <div class="veille-article-date">
+              <span class="veille-article-cat">IA & Dev</span>
+              Octobre 2026
+            </div>
+            <h4>Les agents de code autonomes : où en est-on vraiment ?</h4>
+            <p>
+              Synthèse sur l'évolution des agents capables de livrer un projet complet
+              à partir d'une description. Benchmark SWE-bench, limites actuelles sur
+              les projets de taille réelle, et impact sur la pédagogie BTS.
+            </p>
+            <ul class="veille-article-tags">
+              <li>#llm</li><li>#productivité</li><li>#swe-bench</li>
+            </ul>
+          </article>
+
+          <article class="veille-article">
+            <div class="veille-article-date">
+              <span class="veille-article-cat">Sécurité</span>
+              Septembre 2026
+            </div>
+            <h4>Injections de prompt : la nouvelle faille OWASP</h4>
+            <p>
+              Le top 10 des failles OWASP LLM 2025 : prompt injection, fuite de données
+              sensibles, empoisonnement de modèle. Les parallèles avec les injections SQL
+              que l'on étudie en cours et les bonnes pratiques côté développeur.
+            </p>
+            <ul class="veille-article-tags">
+              <li>#owasp</li><li>#llm</li><li>#sécurité</li>
+            </ul>
+          </article>
+
+          <article class="veille-article">
+            <div class="veille-article-date">
+              <span class="veille-article-cat">Framework</span>
+              Septembre 2026
+            </div>
+            <h4>Pourquoi apprendre PHP en 2026 ?</h4>
+            <p>
+              PHP est au programme du BTS SIO et reste l'un des langages les plus
+              demandés côté back-end. Panorama des usages actuels (WordPress, Laravel,
+              Symfony) et bonnes raisons de miser dessus en début de parcours.
+            </p>
+            <ul class="veille-article-tags">
+              <li>#php</li><li>#back-end</li><li>#formation</li>
+            </ul>
+          </article>
+
+          <article class="veille-article">
+            <div class="veille-article-date">
+              <span class="veille-article-cat">Bonnes pratiques</span>
+              Août 2026
+            </div>
+            <h4>Les bases d'un code propre quand on débute</h4>
+            <p>
+              Nommage, structuration, commentaires utiles, Git bien utilisé : les
+              principes de base pour construire de bonnes habitudes dès les premiers
+              exercices de Python et de PHP, avant de découvrir les tests unitaires.
+            </p>
+            <ul class="veille-article-tags">
+              <li>#clean-code</li><li>#git</li><li>#débutant</li>
+            </ul>
+          </article>
+
+          <article class="veille-article">
+            <div class="veille-article-date">
+              <span class="veille-article-cat">Open source</span>
+              Juillet 2026
+            </div>
+            <h4>Contribuer à l'open source quand on est étudiant</h4>
+            <p>
+              Comment démarrer : issues "good first issue", fork, PR, revues. Les
+              bénéfices pour un étudiant BTS (visibilité GitHub, apprentissage de
+              workflows pros) et les écueils (temps, qualité attendue).
+            </p>
+            <ul class="veille-article-tags">
+              <li>#open-source</li><li>#github</li><li>#carrière</li>
+            </ul>
+          </article>
+
+          <article class="veille-article">
+            <div class="veille-article-date">
+              <span class="veille-article-cat">Cloud</span>
+              Juillet 2026
+            </div>
+            <h4>Support utilisateur : du ticket au développement</h4>
+            <p>
+              Comment une expérience de support en alternance (REP International)
+              nourrit la future casquette de développeur : comprendre le besoin réel,
+              documenter les incidents, et concevoir des outils qui évitent les
+              futurs tickets.
+            </p>
+            <ul class="veille-article-tags">
+              <li>#support</li><li>#alternance</li><li>#méthode</li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= CONTACT ======================= -->
+    <section class="contact" id="contact">
+      <div class="conteneur reveal">
+        <div class="contact-carte">
+          <h2>Restons en contact</h2>
+          <p>
+            Actuellement en <strong>alternance chez REP International</strong> et en
+            formation BTS SIO SLAM à la Nexa Digital School, je suis ouvert aux échanges
+            autour du développement, du support informatique ou simplement d'un
+            retour sur ce portfolio.
+          </p>
+          <div class="contact-liens">
+            <button type="button" class="lien-contact" id="copier-email" data-email="benji.jourdan69@gmail.com" title="Cliquer pour copier l'adresse" aria-live="polite">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>benji.jourdan69@gmail.com</span>
+            </button>
+            <a href="Benjamin_JOURDAN_CV.pdf" class="lien-contact" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Voir mon CV (PDF)
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pied">
+    <div class="conteneur">
+      <p>
+        © 2026 Benjamin Jourdan ·
+        <code>portfolio.v2</code> ·
+        Codé à la main en HTML, CSS et JavaScript.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Signale que JS est actif : active les animations .reveal (sinon tout reste visible).
+    document.documentElement.classList.add('js');
+
+    /* =========================================================
+       NAVIGATION : lien actif selon la section visible
+       ========================================================= */
+    (function navActive() {
+      const liens = document.querySelectorAll('.nav-menu a');
+      const sections = Array.from(liens).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            liens.forEach(a => {
+              a.classList.toggle('actif', a.getAttribute('href') === '#' + id);
+            });
+          }
+        });
+      }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+      sections.forEach(s => observer.observe(s));
+    })();
+
+    /* =========================================================
+       LIENS D'ANCRE : défilement géré en JS pour fonctionner
+       partout (y compris quand la page est chargée en data:/aperçu)
+       ========================================================= */
+    document.querySelectorAll('a[href^="#"]').forEach(lien => {
+      lien.addEventListener('click', (e) => {
+        const cible = document.querySelector(lien.getAttribute('href'));
+        if (!cible) return;
+        e.preventDefault();
+        cible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        try { history.replaceState(null, '', lien.getAttribute('href')); } catch (_) {}
+      });
+    });
+
+    /* =========================================================
+       COPIER L'EMAIL (fonctionne même sans application mail)
+       ========================================================= */
+    (function copierEmail() {
+      const bouton = document.getElementById('copier-email');
+      if (!bouton) return;
+      const libelle = bouton.querySelector('span');
+      const texteInitial = libelle.textContent;
+      const email = bouton.dataset.email;
+
+      const copier = async () => {
+        try {
+          await navigator.clipboard.writeText(email);
+        } catch (_) {
+          // Repli pour les contextes où l'API presse-papiers est refusée
+          const zone = document.createElement('textarea');
+          zone.value = email;
+          zone.style.position = 'fixed';
+          zone.style.opacity = '0';
+          document.body.appendChild(zone);
+          zone.select();
+          document.execCommand('copy');
+          zone.remove();
+        }
+      };
+
+      bouton.addEventListener('click', async () => {
+        await copier();
+        bouton.classList.add('copie');
+        libelle.textContent = 'Adresse copiée ✓';
+        setTimeout(() => {
+          bouton.classList.remove('copie');
+          libelle.textContent = texteInitial;
+        }, 2200);
+      });
+    })();
+
+    /* =========================================================
+       BARRE DE PROGRESSION du scroll
+       ========================================================= */
+    (function progression() {
+      const barre = document.getElementById('nav-progression');
+      if (!barre) return;
+      const maj = () => {
+        const h = document.documentElement;
+        const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+        barre.style.transform = `scaleX(${Math.max(0, Math.min(1, pct))})`;
+      };
+      maj();
+      window.addEventListener('scroll', maj, { passive: true });
+      window.addEventListener('resize', maj);
+    })();
+
+    /* =========================================================
+       MENU HAMBURGER (mobile)
+       ========================================================= */
+    (function burger() {
+      const bouton = document.getElementById('nav-burger');
+      const nav = document.getElementById('nav');
+      if (!bouton || !nav) return;
+      bouton.addEventListener('click', () => {
+        const ouvert = nav.classList.toggle('ouvert');
+        bouton.setAttribute('aria-expanded', ouvert);
+      });
+      // Ferme le menu quand on clique sur un lien
+      nav.querySelectorAll('.nav-menu a').forEach(a => {
+        a.addEventListener('click', () => {
+          nav.classList.remove('ouvert');
+          bouton.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+
+    /* =========================================================
+       ONGLETS Compétences
+       ========================================================= */
+    (function onglets() {
+      const btns = document.querySelectorAll('.onglet');
+      const panneaux = document.querySelectorAll('.panneau-competences');
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cible = btn.dataset.cible;
+          btns.forEach(b => {
+            b.classList.toggle('actif', b === btn);
+            b.setAttribute('aria-selected', b === btn);
+          });
+          panneaux.forEach(p => p.classList.toggle('actif', p.id === cible));
+        });
+      });
+    })();
+
+    /* =========================================================
+       RÉVÉLATION au scroll
+       Avec filet de sécurité : tout élément toujours caché après
+       4 s est révélé d'office (évite les zones vides en cas de
+       scroll très rapide ou de preview statique).
+       ========================================================= */
+    (function reveal() {
+      const elements = document.querySelectorAll('.reveal');
+      const reveleTout = () => elements.forEach(el => el.classList.add('visible'));
+
+      if (!('IntersectionObserver' in window)) {
+        reveleTout();
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -5% 0px' });
+      elements.forEach(el => observer.observe(el));
+
+      setTimeout(reveleTout, 4000);
+    })();
+  </script>
+</body>
+</html>
